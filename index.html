@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pokedex</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+
+<body>
+    <!-------------------------------------------------------- MODAL ------->
+    <div id="app">
+        <div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="info" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2>Datos personales</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body container text-center">
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div id="carrito" class="modal-header">
+                        <h2 id="exampleModalLabel">Tu carrito</h2>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div id="modal-body" class="modal-body container">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" class="btn btn-secondary" onclick="vaciarCarrito()">Vaciar carrito</button>
+                        <button type="button" class="btn primary text-light" onclick="checkout()">Check-out</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------------------------------- FIN MODAL ----------->
+
+
+        <!------------------------------------------------- PÁGINA DOS ---------->
+
+
+        <div class="container-fluid" data-role="page" id="dos">
+            <div class="row border-bottom mb-3 py-2 px-3 primary">
+                <a href="index.html"><h1 class="logo">Powercar</h1></a>
+            </div>
+            <section id="productos" class="row">
+                <h2 class="col-12 text-center">{{poke[0].name}}</h2>
+                <div class="col-md-2 col-xs-12 text-center mb-2">
+                    <figure class="figure">
+                        <img :src="poke[0].img" alt="foto" class="figure-img img-fluid">
+                    </figure>
+                    <div class="col-12" v-for="(type, index) in poke[0].type">
+                        <img :src="'imagenes/'+type+'.gif'">
+                    </div>
+                </div>
+                <div class="col-md-10 col-xs-12">
+                    <table style="width: 100%" v-for="(stat, index) in poke[0].stats">
+                        <tr>
+                            <td>{{stat.stat_name}}</td>
+                            <td>{{stat.stat_value}}</td>
+                            <td>
+                                <div class="progress">
+                                    <div class="progress-bar bg-primary-color" role="progressbar" :style="'width:'+stat.stat_value/2+'%'" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="container-fluid row">
+                    <div v-if="poke[0].hard_weakness.length > 0" class="col-md col-xs-12 text-center mt-3 mb-3">
+                        <h3>Hard weakness</h3>
+                        <template v-for="(type, index) in poke[0].hard_weakness">
+                            <img :src="'imagenes/'+type+'.gif'">
+                        </template>
+                    </div>
+                    <div v-if="poke[0].weakness.length > 0" class="col-md col-xs-12 text-center mt-3 mb-3">
+                        <h3>Weakness</h3>
+                        <template v-for="(type, index) in poke[0].weakness">
+                            <img :src="'imagenes/'+type+'.gif'">
+                        </template>
+                    </div>
+                    <div v-if="poke[0].resistance.length > 0" class="col-md col-xs-12 text-center mt-3 mb-3">
+                        <h3>Resistance</h3>
+                        <template v-for="(type, index) in poke[0].resistance">
+                            <img :src="'imagenes/'+type+'.gif'">
+                        </template>
+                    </div>
+                    <div v-if="poke[0].hard_resistance.length > 0" class="col-md col-xs-12 text-center mt-3 mb-3">
+                        <h3>Hard resistance</h3>
+                        <template v-for="(type, index) in poke[0].hard_resistance">
+                            <img :src="'imagenes/'+type+'.gif'">
+                        </template>
+                    </div>
+                    <div v-if="poke[0].inmune.length > 0" class="col-md col-xs-12 text-center mt-3 mb-3">
+                        <h3>Inmune</h3>
+                        <template v-for="(type, index) in poke[0].inmune">
+                            <img :src="'imagenes/'+type+'.gif'">
+                        </template>
+                    </div>
+                </div>
+                <div class="col-md-3 col-xs-12 p-2">
+                    <button type="button" class="btn pokebutton btn-block">Mega-evolution</button>
+                </div>
+                <div class="col-md-3 col-xs-12 p-2">
+                    <button type="button" class="btn pokebutton btn-block">Advanced settings</button>
+                </div>
+                <div class="col-md-3 col-xs-12 p-2">
+                    <button type="button" class="btn pokebutton btn-block">Available movements</button>
+                </div>
+                <div class="col-md-3 col-xs-12 p-2">
+                    <button type="button" class="btn pokebutton btn-block">Catch him!</button>
+                </div>
+            </section>
+        </div>
+
+        <!---------------------------------------------- PÁGINA UNO ------------->
+
+        <div class="container-fluid" data-role="page" id="uno">
+            <div class="row border-bottom mb-3 py-2 px-3 primary">
+                <a href="index.html"><h1 class="logo">Powercar</h1></a>
+            </div>
+            <section>
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <input type="text" class="pokemon-search mb-2" required id="pokemon" name="pokemon" placeholder="Search for Pokemon..." v-model.trim="inputUsuario">
+                    </div>
+                    <template v-for="(pokemon, index) in filterByName()">
+                        <pokemon :poke="pokemon" @seleccionar="seleccionarPokemon"></pokemon>
+                    </template>            
+                </div>
+            </section>
+        </div>
+
+    <!------------------------------------------------------ NAV ------------>
+
+        <nav class="col navbar navbar-expand navbar-light fixed-bottom mb-0 border-top primary">
+            <div class="collapse navbar-collapse" id="barra">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link border-right" href="#uno"><img src="imagenes/search.svg" alt="icono"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#dos"><img src="imagenes/pokemon.svg" alt="icono"></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <script src="js/jquery-3.4.1.js"></script>
+    <script src="js/bootstrap.bundle.js"></script>
+    <script>
+        /* Seleccionamos a los párrafos que tienen aplicada la clase text-truncate de Bootstrap (corta el texto en una única línea y le agrega los ... cuando no entra completo en su contenedor) y le asociamos el evento click. En la función que responde al evento, al párrafo al que le hicimos click (this) le sacamos la clase text-truncate para liberar el texto y verlo completo o se la aplicamos si se la habíamos sacado previamente con clicks sucesivos. */
+        
+        $('.text-truncate').on('click', function() {
+            $(this).toggleClass('text-truncate');
+
+        });
+    </script>
+    <script src="js/vue.js"></script>
+    <script src="js/pokemons.js"></script>
+    <script src="js/pokemon.js"></script>
+    <script>
+        const app = new Vue({
+            el: '#app',
+            data: {
+                inputUsuario: '',
+                selectedPokemon: 1,
+                listadoCompletoPokemons: pokemons,
+                poke: 0,
+            },
+            methods:{
+                filterByName(){ 
+                    if(this.inputUsuario){
+                        return this.listadoCompletoPokemons.filter( pokemon => pokemon.name.toLowerCase().includes( this.inputUsuario.toLowerCase() ));
+                    }else{
+                        return this.listadoCompletoPokemons;
+                    }
+                },
+                filterById(){ 
+                    return this.listadoCompletoPokemons.filter( pokemon => pokemon.id == this.selectedPokemon );
+                },
+                seleccionarPokemon(id){
+                    this.selectedPokemon = id;
+                    this.poke = this.filterById();
+                }
+            },
+            beforeMount(){
+                this.poke = this.filterById()
+            },
+        })
+    </script>
+</body>
+
+</html>
