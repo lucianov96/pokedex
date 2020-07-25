@@ -1,0 +1,19 @@
+function getPokemon(id){
+    let xhr = new XMLHttpRequest();
+
+    xhr.onreadystatechange = function() {
+        // 	Check if request is completed
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+            //	Do what needs to be done here
+            app.poke = JSON.parse(xhr.response);
+            app.types = getTypeStats(app.poke.types);
+            app.loading = false;
+        }
+    }
+
+    xhr.open("GET", "https://pokeapi.co/api/v2/pokemon/"+id);
+
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.send();
+}

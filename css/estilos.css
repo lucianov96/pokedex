@@ -6,7 +6,7 @@
     top:2.5px;
     width: 48px;
     height: 48px;
-    background: url("../imagenes/logo.png");
+    background: url("../img/logo.png");
     background-repeat: no-repeat;
     font-size: 0;
     z-index: 1031;
@@ -101,6 +101,10 @@ nav .nav-item:nth-of-type(1) img[src*=".svg"] {
 
 /* Ubicamos a la derecha el botón que abre el modal. */
 
+#modal{
+    display: block;
+}
+
 .btn_header {
     position: absolute;
     right: 20px;
@@ -161,3 +165,49 @@ tr td:nth-child(3){
 .primary {
     background: #FF4A3C;
 }
+  
+  .loader {
+    width: 100%;
+    position: fixed;
+    align-items: center;
+    display: flex;
+    background: rgba(0, 0, 0, 0.3);
+    height: 100%;
+    justify-content: center;
+    margin: 0;
+    z-index: 1050;
+  }
+  
+  .loader-wheel {
+    animation: spin 1s infinite linear;
+    border: 2px solid rgba(30, 30, 30, 0.5);
+    border-left: 4px solid #fff;
+    border-radius: 50%;
+    height: 50px;
+    margin-bottom: 10px;
+    width: 50px;
+  }
+  
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  @keyframes load {
+    0% {
+      content: 'Loading';
+    }
+    33% {
+      content: 'Loading.';
+    }
+    67% {
+      content: 'Loading..';
+    }
+    100% {
+      content: 'Loading...';
+    }
+  }
