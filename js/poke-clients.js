@@ -7,7 +7,9 @@ function getPokemon(id){
             //	Do what needs to be done here
             app.poke = JSON.parse(xhr.response);
             app.types = getTypeStats(app.poke.types);
+            app.moves = app.poke.moves;
             app.loading = false;
+            console.log(app.poke.moves);
         }
     }
 

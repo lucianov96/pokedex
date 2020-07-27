@@ -37,7 +37,7 @@
                 </div>
                 <div class="col-md-10 col-xs-12">
                     <table style="width: 100%" v-for="(stat, index) in poke.stats">
-                        <tr>
+                        <tr class="tr">
                             <td>{{stat.stat.name}}</td>
                             <td>{{stat.base_stat}}</td>
                             <td>
@@ -87,10 +87,39 @@
                     <button type="button" class="btn pokebutton btn-block">Advanced settings</button>
                 </div>
                 <div class="col-md-3 col-xs-12 p-2">
-                    <button type="button" class="btn pokebutton btn-block">Available movements</button>
+                    <a href="#tres" class="btn pokebutton btn-block">Available movements</a>
                 </div>
                 <div class="col-md-3 col-xs-12 p-2">
                     <button type="button" class="btn pokebutton btn-block">Catch him!</button>
+                </div>
+            </section>
+        </div>
+
+        <div class="container-fluid" data-role="page" id="tres">
+            <div class="row border-bottom mb-3 py-2 px-3 primary">
+                <a href="index.html"><h1 class="logo">Powercar</h1></a>
+            </div>
+            <section>
+                <div class="row mb-3 p-3">
+                    <h2 class="col-12 text-center">Available Movements</h2>
+                    <table class="table text-center" style="width: 100%">
+                        <tr>
+                            <td>Movement</td>
+                            <td>Type</td>
+                            <td>Movement Type</td>
+                            <td>Points</td>
+                            <td>Accuracy</td>
+                        </tr>
+                        <template v-for="(move, index) in moves">
+                            <tr>
+                                <td>{{move.move.name}}</td>
+                                <td><img src="img/types/psychic.gif"></td>
+                                <td><img src="img/moves/magic.gif"></td>
+                                <td>100</td>
+                                <td>80</td>
+                            </tr>
+                        </template>
+                    </table>     
                 </div>
             </section>
         </div>
@@ -161,6 +190,11 @@
                         {type: {name: "grass"}}
                     ]
                 },
+                moves: [
+                    {
+                        move: {name: "fake_move"}
+                    }
+                ],
                 types: 0,
                 loading: true
             },
