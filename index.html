@@ -23,7 +23,7 @@
 
         <div class="container-fluid" data-role="page" id="dos">
             <div class="row border-bottom mb-3 py-2 px-3 primary">
-                <a href="index.html"><h1 class="logo">Powercar</h1></a>
+                <a href="index.html"><h1 class="logo">Pokedex</h1></a>
             </div>
             <section id="productos" class="row">
                 <h2 class="col-12 text-center">{{poke.name}}</h2>
@@ -81,16 +81,16 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-xs-12 p-2">
-                    <button type="button" class="btn pokebutton btn-block">Mega-evolution</button>
+                    <a href="#tres" class="btn pokebutton btn-block">Mega-evolution</a>
                 </div>
                 <div class="col-md-3 col-xs-12 p-2">
-                    <button type="button" class="btn pokebutton btn-block">Advanced settings</button>
+                    <a href="#tres" @click="showAdvancedSettings" class="btn pokebutton btn-block">Advanced settings</a>
                 </div>
                 <div class="col-md-3 col-xs-12 p-2">
-                    <a href="#tres" class="btn pokebutton btn-block">Available movements</a>
+                    <a href="#tres" @click="showAvailableMovements" class="btn pokebutton btn-block">Available movements</a>
                 </div>
                 <div class="col-md-3 col-xs-12 p-2">
-                    <button type="button" class="btn pokebutton btn-block">Catch him!</button>
+                    <a href="#tres" @click="showCatchHim" class="btn pokebutton btn-block">Catch him!</a>
                 </div>
             </section>
         </div>
@@ -100,9 +100,12 @@
                 <a href="index.html"><h1 class="logo">Powercar</h1></a>
             </div>
             <section>
-                <div class="row mb-3 p-3">
-                    <h2 class="col-12 text-center">Available Movements</h2>
-                    <table class="table text-center" style="width: 100%">
+                <div v-show="availableMovements" class="row mb-3 p-3">
+                    <div class ="absolute">
+                        <a href="#dos" class="btn pokebutton">🡸</a>
+                    </div>
+                    <h2 class="col-12 text-center">{{poke.name}}'s available movements</h2>
+                    <table class="table text-center">
                         <tr>
                             <td>Movement</td>
                             <td>Type</td>
@@ -113,13 +116,45 @@
                         <template v-for="(move, index) in moves">
                             <tr>
                                 <td>{{move.move.name}}</td>
-                                <td><img src="img/types/psychic.gif"></td>
-                                <td><img src="img/moves/magic.gif"></td>
-                                <td>100</td>
-                                <td>80</td>
+                                <td><img :src="'img/types/'+filterMovementByName(move.move.name)[0].type.name+'.gif'"></td>
+                                <td><img :src="'img/moves/'+filterMovementByName(move.move.name)[0].damage_class.name+'.gif'"></td>
+                                <td>{{filterMovementByName(move.move.name)[0].power}}</td>
+                                <td>{{filterMovementByName(move.move.name)[0].accuracy}}</td>
                             </tr>
                         </template>
                     </table>     
+                </div>
+                <div v-show="catchHim" class="row mb-3 p-3">
+                    <div class ="absolute">
+                        <a href="#dos" class="btn pokebutton">🡸</a>
+                    </div>
+                    <h2 class="col-12 text-center">How to catch {{poke.name}}</h2>
+                    <table v-if="zones.length>0" class="table text-center">
+                        <tr>
+                            <td>Pokemon version</td>
+                            <td>Located</td>
+                            <td>Way</td>
+                        </tr>
+                        <template v-for="(zone, index) in zones">
+                            <tr>
+                                <td>{{zone.version_details[0].version.name}}</td>
+                                <td>{{zone.location_area.name}}</td>
+                                <td>{{zone.version_details[0].encounter_details[0].method.name}}</td>
+                            </tr>
+                        </template>
+                    </table>
+                    <div v-else class="col-12 text-center">
+                        <figure class="figure col-12">
+                            <img src="img/sad-pikachu.png" alt="foto" class="figure-img img-fluid">
+                        </figure>
+                        There's no way to catch {{poke.name}}. Try finding its previous evolutions.
+                    </div>
+                </div>
+                <div v-show="advancedSettings" class="row mb-3 p-3">
+                    <div class ="absolute">
+                        <a href="#dos" class="btn pokebutton">🡸</a>
+                    </div>
+                    <h2 class="col-12 text-center">{{poke.name}}'s advanced settings</h2>
                 </div>
             </section>
         </div>
@@ -168,6 +203,7 @@
     <script src="js/vue.js"></script>
     <script src="js/poke-utils.js"></script>
     <script src="js/poke-clients.js"></script>
+    <script src="js/movements.js"></script>
     <script src="js/pokemons.js"></script>
     <script src="js/pokemon.js"></script>
     <script>
@@ -177,6 +213,27 @@
                 inputUsuario: '',
                 selectedPokemon: 1,
                 listadoCompletoPokemons: pokemons,
+                listadoCompletoMovements: movements,
+                catchHim: false,
+                availableMovements: false,
+                advancedSettings: false,
+                zones: [{
+                    location_area: {
+                    name: "cerulean-city-area"
+                    },
+                    version_details: [{
+                        encounter_details: [
+                        {
+                            "method": {
+                            "name": "gift"
+                            }
+                        }
+                        ],
+                        version: {
+                        name: "yellow"
+                        }
+                    }]
+                }],
                 poke: {
                     stats: [
                         {
@@ -192,7 +249,9 @@
                 },
                 moves: [
                     {
-                        move: {name: "fake_move"}
+                        move: {
+                            name: "vine-whip"
+                        }
                     }
                 ],
                 types: 0,
@@ -209,10 +268,30 @@
                 filterById(){ 
                     return this.listadoCompletoPokemons.filter( pokemon => pokemon.id == this.selectedPokemon );
                 },
+                filterMovementByName(name){ 
+                        return this.listadoCompletoMovements.filter( movement => movement.name.includes( name ));
+                },
                 seleccionarPokemon(id){
                     this.loading = true;
                     this.selectedPokemon = id;
                     getPokemon(id);
+                },
+                showAvailableMovements(){
+                    this.availableMovements = true;
+                    this.advancedSettings = false;
+                    this.catchHim = false;
+                },
+                showCatchHim(){
+                    this.loading = true;
+                    this.catchHim = true;
+                    this.advancedSettings = false;
+                    this.availableMovements = false;
+                    getPokemonZones(this.selectedPokemon);
+                },
+                showAdvancedSettings(){
+                    this.advancedSettings = true;
+                    this.catchHim = false;
+                    this.availableMovements = false;
                 }
             },
             beforeMount(){

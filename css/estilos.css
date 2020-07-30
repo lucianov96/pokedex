@@ -160,6 +160,11 @@ nav .nav-item:nth-of-type(1) img[src*=".svg"] {
     color: #ffff55 !important;
 }
 
+.absolute{
+    position: absolute;
+    z-index: 999;
+}
+
 .pokebutton:hover{
     background-image: linear-gradient(#ff5545, #ff4422);
 }
@@ -170,6 +175,10 @@ nav .nav-item:nth-of-type(1) img[src*=".svg"] {
 
 .primary {
     background: #FF4A3C;
+}
+
+.movement-col{
+    width: 20%;
 }
   
   .loader {
