@@ -14,6 +14,8 @@ function getPokemon(id){
 
     xhr.open("GET", "https://pokeapi.co/api/v2/pokemon/"+id);
 
+    console.log(id);
+
     xhr.setRequestHeader("Content-Type", "application/json");
 
     xhr.send();
