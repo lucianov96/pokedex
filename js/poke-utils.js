@@ -40,7 +40,7 @@ function getTypeStats(types){
     var inmune = [];
 
     for(i = 0; i<types.length; i++){
-        switch (types[i].type.name) {
+        switch (types[i]) {
             case "water":
                 electric.total++;
                 grass.total++;

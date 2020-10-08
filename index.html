@@ -32,17 +32,17 @@
                         <img :src="'img/pokemons/'+poke.id+'.png'" alt="foto" class="figure-img img-fluid">
                     </figure>
                     <div class="col-12" v-for="(type, index) in poke.types">
-                        <img :src="'img/types/'+type.type.name+'.gif'">
+                        <img :src="'img/types/'+type+'.gif'">
                     </div>
                 </div>
                 <div class="col-md-10 col-xs-12">
                     <table style="width: 100%" v-for="(stat, index) in poke.stats">
                         <tr class="tr">
-                            <td>{{stat.stat.name}}</td>
-                            <td>{{stat.base_stat}}</td>
+                            <td>{{stat.name}}</td>
+                            <td>{{stat.value}}</td>
                             <td>
                                 <div class="progress">
-                                    <div class="progress-bar bg-primary-color" role="progressbar" :style="'width:'+stat.base_stat/2+'%'" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar bg-primary-color" role="progressbar" :style="'width:'+stat.value/2+'%'" aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </td>
                         </tr>
@@ -115,11 +115,11 @@
                         </tr>
                         <template v-for="(move, index) in moves">
                             <tr>
-                                <td>{{move.move.name}}</td>
-                                <td><img :src="'img/types/'+filterMovementByName(move.move.name)[0].type.name+'.gif'"></td>
-                                <td><img :src="'img/moves/'+filterMovementByName(move.move.name)[0].damage_class.name+'.gif'"></td>
-                                <td>{{filterMovementByName(move.move.name)[0].power}}</td>
-                                <td>{{filterMovementByName(move.move.name)[0].accuracy}}</td>
+                                <td>{{move.name}}</td>
+                                <td><img :src="'img/types/'+move.type+'.gif'"></td>
+                                <td><img :src="'img/moves/'+move.movement_type+'.gif'"></td>
+                                <td>{{move.points}}</td>
+                                <td>{{move.accuracy}}</td>
                             </tr>
                         </template>
                     </table>     
@@ -137,9 +137,9 @@
                         </tr>
                         <template v-for="(zone, index) in zones">
                             <tr>
-                                <td>{{zone.version_details[0].version.name}}</td>
-                                <td>{{zone.location_area.name}}</td>
-                                <td>{{zone.version_details[0].encounter_details[0].method.name}}</td>
+                                <td>{{zone.pokemon_version}}</td>
+                                <td>{{zone.location}}</td>
+                                <td>{{zone.way}}</td>
                             </tr>
                         </template>
                     </table>
@@ -218,40 +218,30 @@
                 availableMovements: false,
                 advancedSettings: false,
                 zones: [{
-                    location_area: {
-                    name: "cerulean-city-area"
-                    },
-                    version_details: [{
-                        encounter_details: [
-                        {
-                            "method": {
-                            "name": "gift"
-                            }
-                        }
-                        ],
-                        version: {
-                        name: "yellow"
-                        }
-                    }]
+                    pokemon_version: "yellow",
+                    location: "cerulean-city-area",
+                    way: "gift"
                 }],
                 poke: {
+                    id: 1,
                     stats: [
                         {
-                            base_stat: 45,
-                            stat: {
-                                name: "PS"
-                            }
+                            name: "PS",
+                            value: 45
                         }
                     ],
                     types: [
-                        {type: {name: "grass"}}
+                        "grass"
                     ]
                 },
                 moves: [
                     {
-                        move: {
-                            name: "vine-whip"
-                        }
+                        name: "confide",
+                        type: "normal",
+                        movement_type: "status",
+                        points: 0,
+                        accuracy: 0,
+                        priority: 0
                     }
                 ],
                 types: 0,
@@ -269,7 +259,7 @@
                     return this.listadoCompletoPokemons.filter( pokemon => pokemon.id == this.selectedPokemon );
                 },
                 filterMovementByName(name){ 
-                        return this.listadoCompletoMovements.filter( movement => movement.name.includes( name ));
+                    return this.listadoCompletoMovements.filter( movement => movement.name.includes( name ));
                 },
                 seleccionarPokemon(id){
                     this.loading = true;
@@ -277,9 +267,11 @@
                     getPokemon(id);
                 },
                 showAvailableMovements(){
+                    this.loading = true;
                     this.availableMovements = true;
                     this.advancedSettings = false;
                     this.catchHim = false;
+                    getPokemonMovements(this.selectedPokemon)
                 },
                 showCatchHim(){
                     this.loading = true;
