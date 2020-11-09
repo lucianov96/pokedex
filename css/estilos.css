@@ -149,11 +149,69 @@ nav .nav-item:nth-of-type(1) img[src*=".svg"] {
     width: 80%;
 }
 
+.title {
+    color: gray;
+    font-size: 2em;
+    border-bottom: 1px solid gray;
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 0.5em;
+}
+
+#filters {
+    border-bottom: 1px solid gray;
+    display: none;
+}
+
+#filterTable {
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+}
+
+#filterTable tr {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+#filterTable td {
+    width: 30%;
+}
+
+#filterTable td select {
+    width: 80%;
+    cursor: pointer;
+}
+
+#filterTable td input[type=number], #filterTable td input[type=text] {
+    width: 80%;
+    text-align: center;
+}
+
 .pokebutton {
     font-size: 1.5em;
     font-family: 'Pokemon Solid';
     background-image: linear-gradient(#FF4A3C, #DD3311);
     color: #ffff55;
+}
+
+.applybutton {
+    font-size: 1.5em;
+    background-image: linear-gradient(#FF4A3C, #DD3311);
+    color: white;
+}
+
+.clearbutton {
+    font-size: 1.5em;
+    background-color: white;
+    color: #AA2200;
+    border: 1px solid #A20;    
+}
+
+.clearbutton:hover {
+    color: #FF4A3C;
+    border: 1px solid #F43;
+    
 }
 
 .pokebutton:hover {
@@ -165,7 +223,7 @@ nav .nav-item:nth-of-type(1) img[src*=".svg"] {
     z-index: 999;
 }
 
-.pokebutton:hover{
+.pokebutton:hover, .applybutton:hover{
     background-image: linear-gradient(#ff5545, #ff4422);
 }
 

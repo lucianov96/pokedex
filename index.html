@@ -112,6 +112,7 @@
                             <td>Movement Type</td>
                             <td>Points</td>
                             <td>Accuracy</td>
+                            <td>Priority</td>
                         </tr>
                         <template v-for="(move, index) in moves">
                             <tr>
@@ -120,6 +121,7 @@
                                 <td><img :src="'img/moves/'+move.movement_type+'.gif'"></td>
                                 <td>{{move.points}}</td>
                                 <td>{{move.accuracy}}</td>
+                                <td>{{move.priority}}</td>
                             </tr>
                         </template>
                     </table>     
@@ -163,12 +165,128 @@
 
         <div class="container-fluid" data-role="page" id="uno">
             <div class="row border-bottom mb-3 py-2 px-3 primary">
-                <a href="index.html"><h1 class="logo">Powercar</h1></a>
+                <a href="index.html"><h1 class="logo">Pokedex</h1></a>
             </div>
             <section>
                 <div class="row mb-3">
-                    <div class="col-12">
+                    <div class="col-11">
                         <input type="text" class="pokemon-search mb-2" required id="pokemon" name="pokemon" placeholder="Search for Pokemon..." v-model.trim="inputUsuario">
+                    </div>
+                    <div class="col-1">
+                        <button class="btn applybutton" onclick="showFilters()"><img alt="filter" src="img/filter.png"></button>
+                    </div>
+                    <div id="filters" class="col-12 mb-3">
+                        <span class="title">Filters</span>
+                        <div class="text-center">
+                        <table id="filterTable" class="text-center">
+                            <tr>
+                                <td>Types</td>
+                                <td>
+                                    <select id="type_1">
+                                        <template v-for="(type, index) in typenames">
+                                            <option>{{type.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select id="type_2">
+                                        <template v-for="(type, index) in typenames">
+                                            <option>{{type.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Abilities</td>
+                                <td>
+                                    <input id="ability_1" type="text"/>
+                                </td>
+                                <td>
+                                    <input id="ability_2" type="text"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>PS</td>
+                                <td>
+                                    <select id="ps">
+                                        <template v-for="(compare, index) in compares">
+                                            <option>{{compare.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="ps_value" type="number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Attack</td>
+                                <td>
+                                    <select id="attack">
+                                        <template v-for="(compare, index) in compares">
+                                            <option>{{compare.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="attack_value" type="number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Defense</td>
+                                <td>
+                                    <select id="defense">
+                                        <template v-for="(compare, index) in compares">
+                                            <option>{{compare.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="defense_value" type="number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sp. Attack</td>
+                                <td>
+                                    <select id="sp_attack">
+                                        <template v-for="(compare, index) in compares">
+                                            <option>{{compare.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="sp_attack_value" type="number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sp. Defense</td>
+                                <td>
+                                    <select id="sp_defense">
+                                        <template v-for="(compare, index) in compares">
+                                            <option>{{compare.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="sp_defense_value" type="number"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Speed</td>
+                                <td>
+                                    <select id="speed">
+                                        <template v-for="(compare, index) in compares">
+                                            <option>{{compare.name}}</option>
+                                        </template>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input id="speed_value" type="number"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <button class="btn clearbutton p-3 m-2">Clear</button>
+                        <button class="btn applybutton p-3 m-2" onclick="getFilteredPokemonList()">Apply filters</button>
+                        </div>
                     </div>
                     <template v-for="(pokemon, index) in filterByName()">
                         <pokemon :poke="pokemon" @seleccionar="seleccionarPokemon"></pokemon>
@@ -203,17 +321,25 @@
     <script src="js/vue.js"></script>
     <script src="js/poke-utils.js"></script>
     <script src="js/poke-clients.js"></script>
-    <script src="js/movements.js"></script>
     <script src="js/pokemons.js"></script>
     <script src="js/pokemon.js"></script>
+    <script src="json/types.js"></script>
+    <script src="json/compare.js"></script>
     <script>
         const app = new Vue({
             el: '#app',
             data: {
+                typenames: types,
+                compares: compares,
                 inputUsuario: '',
                 selectedPokemon: 1,
-                listadoCompletoPokemons: pokemons,
-                listadoCompletoMovements: movements,
+                listadoCompletoPokemons: [
+                    {
+                        name: "bulbasaur",
+                        id: 1
+                    }
+                ],
+                listadoCompletoMovements: '',
                 catchHim: false,
                 availableMovements: false,
                 advancedSettings: false,
@@ -258,9 +384,6 @@
                 filterById(){ 
                     return this.listadoCompletoPokemons.filter( pokemon => pokemon.id == this.selectedPokemon );
                 },
-                filterMovementByName(name){ 
-                    return this.listadoCompletoMovements.filter( movement => movement.name.includes( name ));
-                },
                 seleccionarPokemon(id){
                     this.loading = true;
                     this.selectedPokemon = id;
@@ -289,6 +412,7 @@
             beforeMount(){
                 this.types = getTypeStats(this.poke.types);
                 getPokemon(1);
+                listPokemons();
             },
         })
     </script>

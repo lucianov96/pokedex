@@ -242,3 +242,13 @@ function getTypeStats(types){
 
     return result;
 }
+
+function showFilters() {
+    if(document.getElementById("filters").display == "none") {
+        $("#filters").slideDown(500);
+        document.getElementById("filters").display = "block";
+    } else {
+        $("#filters").slideUp(500);
+        document.getElementById("filters").display = "none";
+    } 
+}
