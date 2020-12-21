@@ -105,6 +105,9 @@
                         <a href="#dos" class="btn pokebutton">🡸</a>
                     </div>
                     <h2 class="col-12 text-center">{{poke.name}}'s available movements</h2>
+                    <div class="col-12">
+                        <input type="text" class="pokemon-search mb-2" required id="movement" name="movement" placeholder="Search for movement..." v-model.trim="inputMovement">
+                    </div>
                     <table class="table text-center">
                         <tr>
                             <td>Movement</td>
@@ -114,7 +117,7 @@
                             <td>Accuracy</td>
                             <td>Priority</td>
                         </tr>
-                        <template v-for="(move, index) in moves">
+                        <template v-for="(move, index) in filterByMovementName()">
                             <tr>
                                 <td>{{move.name}}</td>
                                 <td><img :src="'img/types/'+move.type+'.gif'"></td>
@@ -131,13 +134,16 @@
                         <a href="#dos" class="btn pokebutton">🡸</a>
                     </div>
                     <h2 class="col-12 text-center">How to catch {{poke.name}}</h2>
+                    <div v-show="zones.length>0" class="col-12">
+                        <input type="text" class="pokemon-search mb-2" required id="zone" name="zone" placeholder="Search for Zone..." v-model.trim="inputZone">
+                    </div>
                     <table v-if="zones.length>0" class="table text-center">
                         <tr>
                             <td>Pokemon version</td>
                             <td>Located</td>
                             <td>Way</td>
                         </tr>
-                        <template v-for="(zone, index) in zones">
+                        <template v-for="(zone, index) in filterByZoneName()">
                             <tr>
                                 <td>{{zone.pokemon_version}}</td>
                                 <td>{{zone.location}}</td>
@@ -332,6 +338,8 @@
                 typenames: types,
                 compares: compares,
                 inputUsuario: '',
+                inputMovement: '',
+                inputZone: '',
                 selectedPokemon: 1,
                 listadoCompletoPokemons: [
                     {
@@ -339,7 +347,6 @@
                         id: 1
                     }
                 ],
-                listadoCompletoMovements: '',
                 catchHim: false,
                 availableMovements: false,
                 advancedSettings: false,
@@ -379,6 +386,20 @@
                         return this.listadoCompletoPokemons.filter( pokemon => pokemon.name.toLowerCase().includes( this.inputUsuario.toLowerCase() ));
                     }else{
                         return this.listadoCompletoPokemons;
+                    }
+                },
+                filterByMovementName(){ 
+                    if(this.inputMovement){
+                        return this.moves.filter( move => move.name.toLowerCase().includes( this.inputMovement.toLowerCase() ));
+                    }else{
+                        return this.moves;
+                    }
+                },
+                filterByZoneName(){ 
+                    if(this.inputZone){
+                        return this.zones.filter( zone => zone.pokemon_version.toLowerCase().includes( this.inputZone.toLowerCase() ));
+                    }else{
+                        return this.zones;
                     }
                 },
                 filterById(){ 
