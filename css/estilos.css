@@ -195,6 +195,14 @@ nav .nav-item:nth-of-type(1) img[src*=".svg"] {
     color: #ffff55;
 }
 
+.rounded {
+    font-size: 1em;
+    padding: 0.1 em;
+    border-radius: 50% !important;
+    background-image: linear-gradient(#FF4A3C, #DD3311);
+    color: #ffff55;
+}
+
 .applybutton {
     font-size: 1.5em;
     background-image: linear-gradient(#FF4A3C, #DD3311);
