@@ -121,7 +121,7 @@
                             <tr>
                                 <td>{{move.name}}</td>
                                 <td><img :src="'img/types/'+move.type+'.gif'"></td>
-                                <td><img :src="'img/moves/'+move.movement_type+'.gif'"></td>
+                                <td><img :src="'img/moves/'+move.movementType+'.gif'"></td>
                                 <td>{{move.points}}</td>
                                 <td>{{move.accuracy}}</td>
                                 <td>{{move.priority}}</td>
@@ -145,7 +145,7 @@
                         </tr>
                         <template v-for="(zone, index) in filterByZoneName()">
                             <tr>
-                                <td>{{zone.pokemon_version}}</td>
+                                <td>{{zone.pokemonVersion}}</td>
                                 <td>{{zone.location}}</td>
                                 <td>{{zone.way}}</td>
                             </tr>
@@ -327,7 +327,6 @@
     <script src="js/vue.js"></script>
     <script src="js/poke-utils.js"></script>
     <script src="js/poke-clients.js"></script>
-    <script src="js/pokemons.js"></script>
     <script src="js/pokemon.js"></script>
     <script src="json/types.js"></script>
     <script src="json/compare.js"></script>
@@ -351,7 +350,7 @@
                 availableMovements: false,
                 advancedSettings: false,
                 zones: [{
-                    pokemon_version: "yellow",
+                    pokemonVersion: "yellow",
                     location: "cerulean-city-area",
                     way: "gift"
                 }],
@@ -371,7 +370,7 @@
                     {
                         name: "confide",
                         type: "normal",
-                        movement_type: "status",
+                        movementType: "status",
                         points: 0,
                         accuracy: 0,
                         priority: 0
@@ -397,7 +396,7 @@
                 },
                 filterByZoneName(){ 
                     if(this.inputZone){
-                        return this.zones.filter( zone => zone.pokemon_version.toLowerCase().includes( this.inputZone.toLowerCase() ));
+                        return this.zones.filter( zone => zone.pokemonVersion.toLowerCase().includes( this.inputZone.toLowerCase() ));
                     }else{
                         return this.zones;
                     }

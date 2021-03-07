@@ -5,17 +5,22 @@ function getPokemon(id){
         // 	Check if request is completed
         if (xhr.readyState == XMLHttpRequest.DONE) {
             //	Do what needs to be done here
+            console.log(JSON.parse(xhr.response));
             app.poke = JSON.parse(xhr.response);
             app.types = getTypeStats(app.poke.types);
             app.loading = false;
         }
     }
 
-    xhr.open("GET", "http://localhost:80/pokemon/"+id);
+    xhr.open("GET", "http://localhost:8080/pokemon/"+id);
 
     console.log(id);
 
-    xhr.setRequestHeader("Content-Type", "application/json");
+    // xhr.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    //xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS');
+    //xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.send();
 }
@@ -27,14 +32,18 @@ function getPokemonZones(id){
         // 	Check if request is completed
         if (xhr.readyState == XMLHttpRequest.DONE) {
             //	Do what needs to be done here
-            app.zones = JSON.parse(xhr.response).pokemon_catch_ways;
+            app.zones = JSON.parse(xhr.response).pokemonCatchWays;
             app.loading = false;
         }
     }
 
-    xhr.open("GET", "http://localhost:80/pokemon/"+id+"/catch");
+    xhr.open("GET", "http://localhost:8080/pokemon/"+id+"/catch");
 
-    xhr.setRequestHeader("Content-Type", "application/json");
+    // xhr.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    // xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS');
+    // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.send();
 }
@@ -46,14 +55,18 @@ function getPokemonMovements(id){
         // 	Check if request is completed
         if (xhr.readyState == XMLHttpRequest.DONE) {
             //	Do what needs to be done here
-            app.moves = JSON.parse(xhr.response).pokemon_movements;
+            app.moves = JSON.parse(xhr.response).pokemonMovements;
             app.loading = false;
         }
     }
 
-    xhr.open("GET", "http://localhost:80/pokemon/"+id+"/movements");
+    xhr.open("GET", "http://localhost:8080/pokemon/"+id+"/movements");
 
-    xhr.setRequestHeader("Content-Type", "application/json");
+    // xhr.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    // xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS');
+    // xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.send();
 }
@@ -65,14 +78,18 @@ function listPokemons(){
         // 	Check if request is completed
         if (xhr.readyState == XMLHttpRequest.DONE) {
             //	Do what needs to be done here
-            app.listadoCompletoPokemons = JSON.parse(xhr.response).pokemon_list;
+            app.listadoCompletoPokemons = JSON.parse(xhr.response).pokemonList;
             app.loading = false;
         }
     }
 
-    xhr.open("GET", "http://localhost:80/pokemon/list");
+    xhr.open("GET", "http://localhost:8080/pokemon/list");
 
-    xhr.setRequestHeader("Content-Type", "application/json");
+    // xhr.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    // xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    // xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS');
+    //xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.send();
 }
@@ -102,37 +119,37 @@ function getFilteredPokemonList(){
     var queryParams = "";
 
     if(type1!=""){
-        queryParams += "&type_1="+type1.toLowerCase();
+        queryParams += "&type1="+type1.toLowerCase();
     }
     if(type2!=""){
-        queryParams += "&type_2="+type2;
+        queryParams += "&type2="+type2;
     }
     if(ability1!=""){
-        queryParams += "&ability_1="+ability1;
+        queryParams += "&ability1="+ability1;
     }
     if(ability2!=""){
-        queryParams += "&ability_2="+ability2;
+        queryParams += "&ability2="+ability2;
     }
     if(ps!=""){
-        queryParams += "&ps="+ps+"&ps_value="+psValue;
+        queryParams += "&ps="+ps+"&psValue="+psValue;
     }
     if(attack!=""){
-        queryParams += "&attack="+attack+"&attack_value="+attackValue;
+        queryParams += "&attack="+attack+"&attackValue="+attackValue;
     }
     if(defense!=""){
-        queryParams += "&defense="+defense+"&defense_value="+defenseValue;
+        queryParams += "&defense="+defense+"&defenseValue="+defenseValue;
     }
     if(spAttack!=""){
-        queryParams += "&sp_attack="+spAttack+"&sp_attack_value="+spAttackValue;
+        queryParams += "&spAttack="+spAttack+"&spAttackValue="+spAttackValue;
     }
     if(spDefense!=""){
-        queryParams += "&sp_defense="+spDefense+"&sp_defense_value="+spDefenseValue;
+        queryParams += "&spDefense="+spDefense+"&spDefenseValue="+spDefenseValue;
     }
     if(speed!=""){
         if(speedValue == ""){
             speedValue = "0";
         }
-        queryParams += "&speed="+speed+"&speed_value="+speedValue;
+        queryParams += "&speed="+speed+"&speedValue="+speedValue;
     }
 
     queryParams = queryParams.replace("&", "");
@@ -148,18 +165,22 @@ function getFilteredPokemonList(){
         // 	Check if request is completed
         if (xhr.readyState == XMLHttpRequest.DONE) {
             //	Do what needs to be done here
-            app.listadoCompletoPokemons = JSON.parse(xhr.response).pokemon_list;
+            app.listadoCompletoPokemons = JSON.parse(xhr.response).pokemonList;
             app.loading = false;
         }
     }
 
     if(queryParams==""){
-        xhr.open("GET", "http://localhost:80/pokemon/list");
+        xhr.open("GET", "http://localhost:8080/pokemon/list");
     } else {
-        xhr.open("GET", "http://localhost:80/pokemon/list/filter?"+queryParams);
+        xhr.open("GET", "http://localhost:8080/pokemon/list/filter?"+queryParams);
     }
 
-    xhr.setRequestHeader("Content-Type", "application/json");
+    //xhr.setRequestHeader('Access-Control-Allow-Credentials', 'true');
+    //xhr.setRequestHeader('Access-Control-Allow-Origin', 'http://localhost:8080');
+    //xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, PUT, OPTIONS');
+    //xhr.setRequestHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With');
+    xhr.setRequestHeader('Content-Type', 'application/json');
 
     xhr.send();
 }
